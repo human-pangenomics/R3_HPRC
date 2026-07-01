@@ -1,8 +1,8 @@
 # R3_HPRC
 
-Tracking repository for the HPRC R3 sample cohort. Contains metadata and sequence data manifests for ~400 samples assembled as part of the Human Pangenome Reference Consortium.
+Tracking repository for the HPRC R3 sample cohort. Contains metadata and sequence data manifests for 345 samples assembled as part of the Human Pangenome Reference Consortium.
 
-## Repository contents
+## Sequence Data
 
 | Path | Description |
 |---|---|
