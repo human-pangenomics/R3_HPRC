@@ -17,11 +17,9 @@ Tracking repository for the HPRC R3 sample cohort. Contains metadata and sequenc
 
 ## Assemblies
 
-R3 assemblies use **verkko v2.3.2** in hybrid mode (HiFi + ONT UL + Hi-C phasing). Assemblies are deposited to S3 under the submission prefix:
+R3 assemblies use **verkko v2.3.2** in hybrid mode (HiFi + ONT UL + Hi-C phasing). 
 
-`s3://human-pangenomics/submissions/bed38f3f-cac4-4703-9852-181bc362cea1--R3_verkko-v2.3.2_hybrid_assembly`
-
-Assembly tracking and setup scripts: [R3_verkko-v2.3.2_hybrid_assembly](https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=submissions/bed38f3f-cac4-4703-9852-181bc362cea1--R3_verkko-v2.3.2_hybrid_assembly/)
+Assemblies are deposited to S3 under the submission prefix:[R3_verkko-v2.3.2_hybrid_assembly](https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=submissions/bed38f3f-cac4-4703-9852-181bc362cea1--R3_verkko-v2.3.2_hybrid_assembly/)
 
 ## Assembly QC
 
@@ -35,7 +33,7 @@ Per-sample QC is run for each batch as assemblies complete, covering:
 - **CenSat** — centromere and satellite annotation
 - **Flagger** — HiFi and ONT alignment-based error/duplication/collapse flagging
 
-QC pipeline and per-batch results: [assembly_qc](https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=submissions/76E3F239-A9A6-4B6B-840F-B49053807394--R3_verkko-v2.3.2_hybrid_assembly_qc/)
+QC pipeline results: [assembly_qc](https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=submissions/76E3F239-A9A6-4B6B-840F-B49053807394--R3_verkko-v2.3.2_hybrid_assembly_qc/)
 
 QC summary spreadsheet: [R3 Assembly QC Summary](https://docs.google.com/spreadsheets/d/1nUOeVLDGB_MU6VF3FnHT-muadScXVcKUybEX3Q345ic/edit?usp=sharing)
 
