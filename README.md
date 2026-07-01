@@ -17,9 +17,7 @@ Tracking repository for the HPRC R3 sample cohort. Contains metadata and sequenc
 
 ## Assemblies
 
-Each assembly is verkko-hi-c assembled using a combination of HiFi + R10 hifiasm hybrid corrected reads as long high-quality data (LA), ONT UL R9 (if available) + R10 for ultra-long (UL) data, and Hi-C for phasing. Assembly commands follow the recipe documented in the [HG002 assembly benchmarking repository](https://github.com/marbl/HG002/blob/benchmark/Assembly_benchmarking.md#detailed-assembly-commands).
-
-Verkko-fillet was used to identify internal telomeres and contigs were trimmed or broken at those points. Post-assembly, sequences are oriented relative to CHM13v2 with chrX always assigned to hap2 and chrY to hap1.
+R3 assemblies use **verkko v2.3.2** in hybrid mode (HiFi + ONT UL + Hi-C phasing). Assembly commands follow the recipe documented in the [HG002 assembly benchmarking repository](https://github.com/marbl/HG002/blob/benchmark/Assembly_benchmarking.md#detailed-assembly-commands).
 
 Assemblies are deposited to s3 under the submission prefix: [R3_verkko-v2.3.2_hybrid_assembly](https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=submissions/bed38f3f-cac4-4703-9852-181bc362cea1--R3_verkko-v2.3.2_hybrid_assembly/)
 
