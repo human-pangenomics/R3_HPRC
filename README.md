@@ -17,7 +17,7 @@ Tracking repository for the HPRC R3 sample cohort. Contains metadata and sequenc
 
 ## Assemblies
 
-R3 assemblies use **verkko v2.3.2** in hybrid mode (HiFi + ONT UL + Hi-C phasing). Assembly commands follow the recipe documented in the [HG002 assembly benchmarking repository](https://github.com/marbl/HG002/blob/benchmark/Assembly_benchmarking.md#detailed-assembly-commands).
+R3 assemblies use **verkko v2.3.2** in hybrid mode (HiFi + ONT UL + Hi-C phasing). Assembly follow the recipe documented in the [HG002 assembly benchmarking repository](https://github.com/marbl/HG002/blob/benchmark/Assembly_benchmarking.md#detailed-assembly-commands).
 
 Assemblies are deposited to s3 under the submission prefix: [R3_verkko-v2.3.2_hybrid_assembly](https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=submissions/bed38f3f-cac4-4703-9852-181bc362cea1--R3_verkko-v2.3.2_hybrid_assembly/)
 
