@@ -10,7 +10,7 @@ Tracking repository for the HPRC R3 sample cohort. Contains metadata and sequenc
 | `sample/R3_HPRC_coverage_summary.csv` | Per-sample sequencing coverage summary |
 | `sequence_data/R3_HPRC_hifi_no_dc_map.csv` | HiFi BAM paths (s3) |
 | `sequence_data/R3_HPRC_ont.csv` | ONT BAM paths (s3) |
-| `sequence_data/R3_HPRC_ont_corrected.csv` | hifiasm hybrid-corrected ONT FASTQ paths (s3) with read stats |
+| `sequence_data/R3_HPRC_ont_corrected.csv` | hifiasm hybrid-corrected ONT FASTQ paths (s3) |
 | `sequence_data/R3_HPRC_hic.csv` | Hi-C FASTQ paths (s3) |
 | `sequence_data/R3_HPRC_ill.csv` | Illumina FASTQ paths (s3) |
 | `sequence_data/R3_HPRC_kinnex.csv` | Kinnex read paths (s3) |
