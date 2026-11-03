@@ -154,6 +154,7 @@ cat ${SAMPLE}.hap1.cenSat.bed ${SAMPLE}.hap2.cenSat.bed > ${SAMPLE}.cenSat.dip.b
 ## Step 2: Compleasm — BUSCO Gene Completeness
 
 **Tool:** https://github.com/huangnengcsu/compleasm  
+**Version:** v0.2.6  
 **Docker:** `huangnengcsu/compleasm@sha256:34643e3ebbc9a2dde9d648434e1b79cc576b38967cad86341622de5701da8ede`  
 **Lineage:** `primatesnoY_odb10`  
 **Run per haplotype.**
