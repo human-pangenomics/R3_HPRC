@@ -39,3 +39,5 @@ QC pipeline results on s3: [assembly_qc](https://s3-us-west-2.amazonaws.com/huma
 QC summary spreadsheet: [R3 Assembly QC Summary](https://docs.google.com/spreadsheets/d/1nUOeVLDGB_MU6VF3FnHT-muadScXVcKUybEX3Q345ic/edit?usp=sharing)
 
 Full Quaak outputs on s3: [R3_verkko-v2.3.2_hybrid_assembly_quaak](https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=submissions/77F76FE5-3015-4556-8B28-DB5B8C5F04A4--R3_verkko-v2.3.2_hybrid_assembly_quaak/)
+
+Pipeline documentation (commands, tool versions, output naming): [assembly_qc/HPRC_ASSEMBLY_QC_README.md](assembly_qc/HPRC_ASSEMBLY_QC_README.md)
