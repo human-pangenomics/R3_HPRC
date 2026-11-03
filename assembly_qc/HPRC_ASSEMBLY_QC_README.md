@@ -24,21 +24,61 @@ Steps 1–4 are independent. Flagger (step 5) must finish before NucFlag (step 6
 
 ---
 
-## Reference Files
+## Reference Annotation Files
 
-| File | Source / Notes |
-|---|---|
-| `chm13v2.0.fa.gz` | [T2T consortium](https://github.com/marbl/CHM13) |
-| `chm13v2.0_GenomeFeature_v1.0.bed` | T2T annotation |
-| `chm13v2.0_SD.flattened.bed` | T2T segmental duplications |
-| `chm13v2.0_censat_v2.0.bed` | T2T censat annotation |
-| `AS-HORs-hmmer3.4-071024.hmm` | alphaAnnotation repo (`utilities/`) |
-| `AS-SFs-hmmer3.0.290621.hmm` | alphaAnnotation repo (`utilities/`) |
-| `rDNA1.0.hmm` | alphaAnnotation repo (`utilities/`) |
-| `xy_apes_y_human_newmodels.embl` | alphaAnnotation repo (`utilities/`) |
-| `primatesnoY_odb10_mb_download.tar.gz` | BUSCO lineage for primates (no Y) |
-| `sel-500.kmer.fa.gz` | Quaak k-mer reference |
-| `chm13v2.ref.path.gz` | Quaak reference path |
+All CHM13v2.0 annotation files are hosted on the HPRC S3 bucket under the T2T annotation prefix.
+
+### CHM13v2.0 genome annotations (used by T2T QC)
+
+```bash
+# Genome feature annotation (T2T QC: annotationBed)
+aws s3 cp s3://human-pangenomics/T2T/CHM13/assemblies/annotation/chm13v2.0_GenomeFeature_v1.0.bed .
+
+# CenSat annotation v2.0 (T2T QC: annotationCENSAT)
+aws s3 cp s3://human-pangenomics/T2T/CHM13/assemblies/annotation/chm13v2.0_censat_v2.0.bed .
+
+# Segmental duplications — flattened (T2T QC: annotationSD)
+# chm13v2.0_SD.flattened.bed is not directly on S3; generate it from the source SD BED:
+aws s3 cp s3://human-pangenomics/T2T/CHM13/assemblies/annotation/chm13v2.0_SD.bed .
+bedtools merge -i chm13v2.0_SD.bed > chm13v2.0_SD.flattened.bed
+
+# CHM13v2.0 reference FASTA (T2T QC alignment)
+aws s3 cp s3://human-pangenomics/T2T/CHM13/assemblies/analysis_set/chm13v2.0.fa.gz .
+```
+
+### CenSat HMM profiles (used by CenSat / alphaAnnotation)
+
+```bash
+git clone https://github.com/kmiga/alphaAnnotation
+# Profiles are in alphaAnnotation/utilities/:
+#   AS-HORs-hmmer3.4-071024.hmm
+#   AS-SFs-hmmer3.0.290621.hmm
+#   rDNA1.0.hmm
+#   xy_apes_y_human_newmodels.embl
+```
+
+### Quaak reference files
+
+```bash
+# sel-500.kmer.fa.gz and chm13v2.ref.path.gz are bundled with the Quaak release:
+# https://github.com/Unitig/Quaak/releases
+```
+
+### Summary table
+
+| File | Used by | S3 / source |
+|---|---|---|
+| `chm13v2.0.fa.gz` | T2T QC | `s3://human-pangenomics/T2T/CHM13/assemblies/analysis_set/` |
+| `chm13v2.0_GenomeFeature_v1.0.bed` | T2T QC | `s3://human-pangenomics/T2T/CHM13/assemblies/annotation/` |
+| `chm13v2.0_SD.flattened.bed` | T2T QC | generated from `chm13v2.0_SD.bed` via `bedtools merge` (see above) |
+| `chm13v2.0_censat_v2.0.bed` | T2T QC | `s3://human-pangenomics/T2T/CHM13/assemblies/annotation/` |
+| `AS-HORs-hmmer3.4-071024.hmm` | CenSat | alphaAnnotation repo `utilities/` |
+| `AS-SFs-hmmer3.0.290621.hmm` | CenSat | alphaAnnotation repo `utilities/` |
+| `rDNA1.0.hmm` | CenSat | alphaAnnotation repo `utilities/` |
+| `xy_apes_y_human_newmodels.embl` | CenSat | alphaAnnotation repo `utilities/` |
+| `primatesnoY_odb10_mb_download.tar.gz` | Compleasm | BUSCO lineage downloads |
+| `sel-500.kmer.fa.gz` | Quaak | Quaak release bundle |
+| `chm13v2.ref.path.gz` | Quaak | Quaak release bundle |
 
 ---
 
