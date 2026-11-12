@@ -1,6 +1,6 @@
 # Running CenSat → Flagger → NucFlag on Phoenix
 
-## TL;DR
+## Quick Reference
 
 **WDL locations on Phoenix:**
 
@@ -19,13 +19,15 @@
 3. **Flagger** — run once per read type (HiFi / ONT R10) using the diploid BED; produces `{SAMPLE}.{hifi,ont_r10}_minimap2.bam`
 4. **NucFlag** — run per haplotype per read type using the Flagger BAM; produces `{SAMPLE}.{hap}.nucflag.bed`
 
-Each step is submitted as an `sbatch` job running `toil-wdl-runner` on a single node. Steps must be run in order — Flagger depends on the CenSat diploid BED, NucFlag depends on the Flagger BAM. See the full instructions below for JSON templates and resource settings.
+Each step is submitted as an `sbatch` job running `toil-wdl-runner` on a single node. Steps must be run in order — Flagger depends on the CenSat diploid BED, NucFlag depends on the Flagger BAM. See the [detailed instructions](#prerequisites) below for input JSON templates, resource settings, and troubleshooting.
 
 ```bash
 source ~/toil_env/bin/activate   # required before submitting any job
 ```
 
 ---
+
+## Detailed Instructions
 
 Step-by-step guide for running the centromere annotation, read-to-assembly alignment/flagging, and misassembly detection pipeline on a single diploid assembly on the Phoenix HPC cluster.
 
