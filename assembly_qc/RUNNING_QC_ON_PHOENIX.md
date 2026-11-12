@@ -1,5 +1,32 @@
 # Running CenSat → Flagger → NucFlag on Phoenix
 
+## TL;DR
+
+**WDL locations on Phoenix:**
+
+| Step | WDL |
+|------|-----|
+| CenSat | `/private/nanopore/tools/alphaAnnotation/cenSatAnnotation/centromereAnnotation.wdl` |
+| Compleasm | `/private/nanopore/tools/hpp_production_workflows/QC/wdl/workflows/compleasm_single.wdl` |
+| T2T QC | `/private/nanopore/tools/hpp_production_workflows/QC/wdl/tasks/find_assembly_breakpoints.wdl` |
+| Flagger | `/private/nanopore/tools/hpp_production_workflows/QC/wdl/workflows/hmm_flagger_end_to_end_with_mapping.wdl` |
+| NucFlag | `/private/nanopore/hprc_qc/wdls/nucflag.wdl` |
+
+**Steps:**
+
+1. **CenSat** — run per haplotype; produces `{SAMPLE}.hap{1,2}.cenSat.bed`
+2. **Combine BEDs** — `cat hap1.cenSat.bed hap2.cenSat.bed > {SAMPLE}.cenSat.dip.bed`
+3. **Flagger** — run once per read type (HiFi / ONT R10) using the diploid BED; produces `{SAMPLE}.{hifi,ont_r10}_minimap2.bam`
+4. **NucFlag** — run per haplotype per read type using the Flagger BAM; produces `{SAMPLE}.{hap}.nucflag.bed`
+
+Each step is submitted as an `sbatch` job running `toil-wdl-runner` on a single node. Steps must be run in order — Flagger depends on the CenSat diploid BED, NucFlag depends on the Flagger BAM. See the full instructions below for JSON templates and resource settings.
+
+```bash
+source ~/toil_env/bin/activate   # required before submitting any job
+```
+
+---
+
 Step-by-step guide for running the centromere annotation, read-to-assembly alignment/flagging, and misassembly detection pipeline on a single diploid assembly on the Phoenix HPC cluster.
 
 The pipeline runs each step as a SLURM job. All tools execute inside Docker containers via Singularity — no manual software installation needed.
