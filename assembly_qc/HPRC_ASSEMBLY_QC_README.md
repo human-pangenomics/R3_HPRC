@@ -360,31 +360,58 @@ awk 'BEGIN{OFS="\t"} {print $1, 0, $2}' ${SAMPLE}.hap1.fa.fai > ${SAMPLE}.hap1.g
 
 # 2. Filter diploid BAM to primary alignments on hap1 contigs only
 #    -F 2308 drops unmapped (4), secondary (256), supplementary (2048)
-samtools view \
-    -F 2308 \
-    --bam --with-header \
-    --regions-file ${SAMPLE}.hap1.genome.bed \
-    --threads 8 \
-    ${SAMPLE}.hifi_minimap2.bam \
-    -o ${SAMPLE}.hifi_minimap2.hap1.primary.bam
+#
+#    IMPORTANT: samtools view --regions-file keeps the full diploid header (hap1+hap2 @SQ
+#    entries). NucFlag builds windows from the BAM header and would crash on hap2 contigs
+#    not present in the hap1 FASTA. We must also remap the BAM header to hap1-only.
+#
+#    samtools reheader cannot be used: it replaces header TEXT but not the binary tid fields
+#    in reads. In a diploid BAM hap1/hap2 @SQ entries are interleaved, so removing hap2
+#    entries makes the remaining reads' tid values point to wrong or nonexistent positions,
+#    causing "samtools index: Numerical result out of range".
+#
+#    Solution: SAM roundtrip. SAM stores reference names as text strings; re-encoding as BAM
+#    with the new header remaps tid values correctly.
+
+# Build hap1-only header
+{
+    samtools view -H ${SAMPLE}.hifi_minimap2.bam | grep -v "^@SQ"
+    awk '{print $1}' ${SAMPLE}.hap1.genome.bed | sort -u | while read -r chrom; do
+        samtools view -H ${SAMPLE}.hifi_minimap2.bam | awk -v sn="SN:${chrom}" '$2 == sn'
+    done
+} > hap1_header.sam
+
+# Filter reads (SAM output, no header) + prepend hap1-only header + re-encode as BAM
+{
+    cat hap1_header.sam
+    samtools view -F 2308 --regions-file ${SAMPLE}.hap1.genome.bed --threads 8 \
+        ${SAMPLE}.hifi_minimap2.bam
+} | samtools view --bam --threads 8 -o ${SAMPLE}.hifi_minimap2.hap1.primary.bam
+
 samtools index ${SAMPLE}.hifi_minimap2.hap1.primary.bam
 
 # 3. Run NucFlag
+#    NucFlag uses pysam to read the BAM. pysam requires the BAI to have been created
+#    by the same samtools version as the one inside the container. Re-run samtools index
+#    inside the container before calling nucflag to avoid BAI compatibility errors.
 mkdir -p plots/
 docker run --rm \
     -v $(pwd):/data \
     iviolich/nucflag:1.0.0 \
-    nucflag call \
-    -i /data/${SAMPLE}.hifi_minimap2.hap1.primary.bam \
-    -f /data/${SAMPLE}.hap1.fa \
-    -d /data/plots/ \
-    -o /data/${SAMPLE}.hifi.hap1.nucflag.bed \
-    -s /data/${SAMPLE}.hifi.hap1.nucflag_status.bed \
-    -t 4 \
-    -p 4
+    bash -c "
+        samtools index /data/${SAMPLE}.hifi_minimap2.hap1.primary.bam && \
+        nucflag call \
+            -i /data/${SAMPLE}.hifi_minimap2.hap1.primary.bam \
+            -f /data/${SAMPLE}.hap1.fa \
+            -d /data/plots/ \
+            -o /data/${SAMPLE}.hifi.hap1.nucflag.bed \
+            -s /data/${SAMPLE}.hifi.hap1.nucflag_status.bed \
+            -t 4 \
+            -p 4
+    "
 
-# For ONT R10, add: -x ont_r10
-# Note: NucFlag must be reindexed inside the container; the WDL handles this automatically.
+# For ONT R10, add: -x ont_r10 to the nucflag call
+# Optional: -c /data/nucflag.toml to override default parameters
 
 tar -czf ${SAMPLE}.hifi.hap1.nucflag_plots.tar.gz plots/
 ```
